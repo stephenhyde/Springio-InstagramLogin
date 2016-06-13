@@ -38,14 +38,14 @@ public class LoginValidation {
     }
     private void loadLightWeightDriverCustom() {
         File PHANTOMJS_EXE = new File("//home/innwadmin/phantomjs/bin/phantomjs");  // Linux File
-       // File PHANTOMJS_EXE = new File("C:/Users/stephen/Documents/Instanetwork/Instagram AutoLike/InstagramAutoLike/phantomjs-2.0.0-windows/bin/phantomjs.exe"); // Windows File
+        //File PHANTOMJS_EXE = new File("C:/Users/stephen/Documents/Instanetwork/Instagram AutoLike/InstagramAutoLike/phantomjs-2.0.0-windows/bin/phantomjs.exe"); // Windows File
 
         ArrayList<String> cliArgsCap = new ArrayList();
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("phantomjs.binary.path",
                 PHANTOMJS_EXE.getAbsolutePath());
         caps.setJavascriptEnabled(true);
-           cliArgsCap.add("--proxy=" + ip + ":" + port); //8080 for tinyproxy
+        cliArgsCap.add("--proxy=" + ip + ":" + port); 
         if (!proxyUser.equalsIgnoreCase("none")) {
            cliArgsCap.add("--proxy-auth=" + proxyUser + ":" + proxyPass);
         }
@@ -62,17 +62,20 @@ public class LoginValidation {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);      
         List<WebElement> user = driver.findElements(By.xpath("//input[@name='username']"));
         List<WebElement> pass = driver.findElements(By.xpath("//input[@name='password']"));
-        List<WebElement> login = driver.findElements(By.xpath("//button[@class='_rz1lq _k2yal _84y62 _7xso1 _nv5lf']"));
+        List<WebElement> login = driver.findElements(By.xpath("//button[@class='_aj7mu _taytv _ki5uo _o0442']"));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         if(user.size() > 0 && pass.size() > 0 && login.size() > 0){
             user.get(0).sendKeys(username);
             pass.get(0).sendKeys(password);
+            sleepExtraPageLoad();
             login.get(0).click();
+            sleepExtraPageLoad();
         }
         else{
             result = false;
         }
-        List<WebElement> name = driver.findElements(By.xpath("//a[@class='_6ssv5']"));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        List<WebElement> name = driver.findElements(By.xpath("//a[contains(@class, 'whiteoutSpriteDesktopNavProfile')]"));
         result = name.size() > 0;      
     }
     private void SetParameters(String param) {
@@ -92,5 +95,13 @@ public class LoginValidation {
     }
     public boolean GetResult(){
         return result;
+    }
+    
+    private void sleepExtraPageLoad() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted Exception on sleepDuringWebstaLogin");
+        }
     }
 }
