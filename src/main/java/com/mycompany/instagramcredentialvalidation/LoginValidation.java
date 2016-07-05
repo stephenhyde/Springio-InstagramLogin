@@ -6,6 +6,7 @@
 package com.mycompany.instagramcredentialvalidation;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -75,7 +76,7 @@ public class LoginValidation {
             result = false;
         }
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        List<WebElement> name = driver.findElements(By.xpath("//a[contains(@class, 'whiteoutSpriteDesktopNavProfile')]"));
+        List<WebElement> name = driver.findElements(By.xpath("//a[contains(@class, '_soakw')]"));
         result = name.size() > 0;      
     }
     private void SetParameters(String param) {
@@ -84,6 +85,7 @@ public class LoginValidation {
             String[] array = param.split(",");
             username  = array[0];
             password  = array[1];
+            System.out.println("PASSSWORD " + password);
             ip        = array[2];
             port      = array[3];
             proxyUser = array[4];
@@ -99,7 +101,7 @@ public class LoginValidation {
     
     private void sleepExtraPageLoad() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             System.out.println("Interrupted Exception on sleepDuringWebstaLogin");
         }
