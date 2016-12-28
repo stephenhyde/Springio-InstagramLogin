@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 public class GreetingController {
@@ -20,6 +21,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/validate")
+    @CrossOrigin
     public profileProperties validate(@RequestParam(value="properties", defaultValue="") String properties) {
         LoginValidation login = new LoginValidation(properties);
         return new profileProperties(counter.incrementAndGet(), login.GetResult());
