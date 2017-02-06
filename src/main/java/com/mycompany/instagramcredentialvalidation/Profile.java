@@ -11,8 +11,8 @@ public class Profile {
     private String password;
     private String ip;
     private String port;
-    private String proxyUser;
-    private String proxyPass;
+    private String proxyUsername;
+    private String proxyPassword;
 
     public String getUsername() {
         return username;
@@ -46,19 +46,19 @@ public class Profile {
         this.port = port;
     }
 
-    public String getProxyUser() {
-        return proxyUser;
+    public String getProxyUsername() {
+        return proxyUsername;
     }
 
-    public void setProxyUser(String proxyUser) {
-        this.proxyUser = proxyUser;
+    public void setProxyUsername(String proxyUser) {
+        this.proxyUsername = proxyUser;
     }
 
-    public String getProxyPass() {
-        return proxyPass;
+    public String getProxyPassword() {
+        return proxyPassword;
     }
 
-    public void setProxyPass (String proxyPass) {
-        this.proxyPass = proxyPass;
+    public void setProxyPassword (String proxyPass) {
+        this.proxyPassword = proxyPass;
     }
 }

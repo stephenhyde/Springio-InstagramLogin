@@ -30,10 +30,10 @@ public class LoginValidation {
         System.out.println("Password " + profile.getPassword());
         System.out.println("Ip " + profile.getIp());
         System.out.println("Port " + profile.getPort());
-        System.out.println("ProxyUser " + profile.getProxyUser());
-        System.out.println("ProxyPass " + profile.getProxyPass());
+        System.out.println("ProxyUsername " + profile.getProxyUsername());
+        System.out.println("ProxyPassword " + profile.getProxyPassword());
         
-        if (profile.getUsername() == null || profile.getPassword() == null || profile.getIp() == null || profile.getPort() == null || profile.getProxyUser() == null || profile.getProxyPass() == null) {
+        if (profile.getUsername() == null || profile.getPassword() == null || profile.getIp() == null || profile.getPort() == null || profile.getProxyUsername() == null || profile.getProxyPassword() == null) {
             System.out.println("Result1 " + result);
             return;
         }
@@ -45,7 +45,7 @@ public class LoginValidation {
     
     private void loadLightWeightDriverCustom() {
         // File PHANTOMJS_EXE = new File("//home/innwadmin/phantomjs/bin/phantomjs");  // Linux File
-        File PHANTOMJS_EXE = new File("/Users/stephen.hyde/repositories/phantomjs-2.1.1-macosx/bin/phantomjs");
+         File PHANTOMJS_EXE = new File("/Users/stephen.hyde/repositories/phantomjs-2.1.1-macosx/bin/phantomjs");
         // File PHANTOMJS_EXE = new File("C:/Users/stephen/Documents/Instanetwork/Instagram AutoLike/InstagramAutoLike/phantomjs-2.0.0-windows/bin/phantomjs.exe"); // Windows File
 
         ArrayList<String> cliArgsCap = new ArrayList();
@@ -54,8 +54,8 @@ public class LoginValidation {
                 PHANTOMJS_EXE.getAbsolutePath());
         caps.setJavascriptEnabled(true);
         cliArgsCap.add("--proxy=" + profile.getIp() + ":" + profile.getPort()); 
-        if (!profile.getProxyUser().equalsIgnoreCase("none")) {
-           cliArgsCap.add("--proxy-auth=" + profile.getProxyUser() + ":" + profile.getProxyPass());
+        if (!profile.getProxyUsername().equalsIgnoreCase("none")) {
+           cliArgsCap.add("--proxy-auth=" + profile.getProxyUsername() + ":" + profile.getProxyPassword());
         }
         cliArgsCap.add("--max-disk-cache-size=0");
         cliArgsCap.add("--disk-cache=false");
@@ -67,11 +67,11 @@ public class LoginValidation {
     }
     private void login(){
         driver.get("https://www.instagram.com/accounts/login/");
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);      
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);      
         List<WebElement> user = driver.findElements(By.xpath("//input[@name='username']"));
         List<WebElement> pass = driver.findElements(By.xpath("//input[@name='password']"));
         List<WebElement> login = driver.findElements(By.xpath("//span[1]/button[contains(@class, '_ah57t')]"));
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         if(user.size() > 0 && pass.size() > 0 && login.size() > 0){
             user.get(0).sendKeys(profile.getUsername());
             pass.get(0).sendKeys(profile.getPassword());
