@@ -30,13 +30,15 @@ public class LoginValidation {
     private String proxyUser = "";
     private String proxyPass = "";
     private boolean result = false;
+    private Profile profile;
     
-    public LoginValidation(String parameters){
-        SetParameters(parameters);
+    public LoginValidation(Profile p){
+        profile = p;
         loadLightWeightDriverCustom();
         login();
         driver.quit();
     }
+    
     private void loadLightWeightDriverCustom() {
          File PHANTOMJS_EXE = new File("//home/innwadmin/phantomjs/bin/phantomjs");  // Linux File
         // File PHANTOMJS_EXE = new File("/Users/stephen.hyde/repositories/phantomjs-2.1.1-macosx/bin/phantomjs");
@@ -47,7 +49,7 @@ public class LoginValidation {
         caps.setCapability("phantomjs.binary.path",
                 PHANTOMJS_EXE.getAbsolutePath());
         caps.setJavascriptEnabled(true);
-        cliArgsCap.add("--proxy=" + ip + ":" + port); 
+        cliArgsCap.add("--proxy=" + profile.getIp() + ":" + port); 
         if (!proxyUser.equalsIgnoreCase("none")) {
            cliArgsCap.add("--proxy-auth=" + proxyUser + ":" + proxyPass);
         }
