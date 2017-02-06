@@ -6,11 +6,9 @@
 package com.mycompany.instagramcredentialvalidation;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -23,25 +21,31 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class LoginValidation {
     PhantomJSDriver driver;  //Ghostdriver
-    private String username  = "";
-    private String password  = "";
-    private String ip        = "";
-    private String port      = "";
-    private String proxyUser = "";
-    private String proxyPass = "";
     private boolean result = false;
     private Profile profile;
     
     public LoginValidation(Profile p){
         profile = p;
+        System.out.println("Username " + profile.getUsername());
+        System.out.println("Password " + profile.getPassword());
+        System.out.println("Ip " + profile.getIp());
+        System.out.println("Port " + profile.getPort());
+        System.out.println("ProxyUser " + profile.getProxyUser());
+        System.out.println("ProxyPass " + profile.getProxyPass());
+        
+        if (profile.getUsername() == null || profile.getPassword() == null || profile.getIp() == null || profile.getPort() == null || profile.getProxyUser() == null || profile.getProxyPass() == null) {
+            System.out.println("Result1 " + result);
+            return;
+        }
         loadLightWeightDriverCustom();
         login();
+        System.out.println("Result " + result);
         driver.quit();
     }
     
     private void loadLightWeightDriverCustom() {
-         File PHANTOMJS_EXE = new File("//home/innwadmin/phantomjs/bin/phantomjs");  // Linux File
-        // File PHANTOMJS_EXE = new File("/Users/stephen.hyde/repositories/phantomjs-2.1.1-macosx/bin/phantomjs");
+        // File PHANTOMJS_EXE = new File("//home/innwadmin/phantomjs/bin/phantomjs");  // Linux File
+        File PHANTOMJS_EXE = new File("/Users/stephen.hyde/repositories/phantomjs-2.1.1-macosx/bin/phantomjs");
         // File PHANTOMJS_EXE = new File("C:/Users/stephen/Documents/Instanetwork/Instagram AutoLike/InstagramAutoLike/phantomjs-2.0.0-windows/bin/phantomjs.exe"); // Windows File
 
         ArrayList<String> cliArgsCap = new ArrayList();
@@ -49,9 +53,9 @@ public class LoginValidation {
         caps.setCapability("phantomjs.binary.path",
                 PHANTOMJS_EXE.getAbsolutePath());
         caps.setJavascriptEnabled(true);
-        cliArgsCap.add("--proxy=" + profile.getIp() + ":" + port); 
-        if (!proxyUser.equalsIgnoreCase("none")) {
-           cliArgsCap.add("--proxy-auth=" + proxyUser + ":" + proxyPass);
+        cliArgsCap.add("--proxy=" + profile.getIp() + ":" + profile.getPort()); 
+        if (!profile.getProxyUser().equalsIgnoreCase("none")) {
+           cliArgsCap.add("--proxy-auth=" + profile.getProxyUser() + ":" + profile.getProxyPass());
         }
         cliArgsCap.add("--max-disk-cache-size=0");
         cliArgsCap.add("--disk-cache=false");
@@ -63,14 +67,14 @@ public class LoginValidation {
     }
     private void login(){
         driver.get("https://www.instagram.com/accounts/login/");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);      
+//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);      
         List<WebElement> user = driver.findElements(By.xpath("//input[@name='username']"));
         List<WebElement> pass = driver.findElements(By.xpath("//input[@name='password']"));
         List<WebElement> login = driver.findElements(By.xpath("//span[1]/button[contains(@class, '_ah57t')]"));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         if(user.size() > 0 && pass.size() > 0 && login.size() > 0){
-            user.get(0).sendKeys(username);
-            pass.get(0).sendKeys(password);
+            user.get(0).sendKeys(profile.getUsername());
+            pass.get(0).sendKeys(profile.getPassword());
             sleepExtraPageLoad();
             login.get(0).click();
             sleepExtraPageLoad();
@@ -82,23 +86,7 @@ public class LoginValidation {
         List<WebElement> name = driver.findElements(By.xpath("//a[contains(@class, '_soakw')]"));
         result = name.size() > 0;      
     }
-    private void SetParameters(String param) {
-        int count = StringUtils.countMatches(param, ",");
-        if(count == 5){
-            String[] array = param.split(",");
-            username  = array[0];
-            password  = array[1];
-            System.out.println("USERNAME " + username);
-            System.out.println("PASSWORD " + password);
-            ip        = array[2];
-            port      = array[3];
-            proxyUser = array[4];
-            proxyPass = array[5];
-        }
-        else{          
-           result = false;
-        }
-    }
+
     public boolean GetResult(){
         return result;
     }

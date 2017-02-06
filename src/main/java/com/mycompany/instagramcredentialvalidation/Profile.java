@@ -58,7 +58,7 @@ public class Profile {
         return proxyPass;
     }
 
-    public void setProxyPass (String username) {
+    public void setProxyPass (String proxyPass) {
         this.proxyPass = proxyPass;
     }
 }
