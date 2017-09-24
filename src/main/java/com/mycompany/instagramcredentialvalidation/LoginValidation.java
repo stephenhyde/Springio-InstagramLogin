@@ -36,7 +36,8 @@ public class LoginValidation {
     private void login(){
         String s;
         String scriptResult = null;
-        String location = "/Users/stephen.hyde/repositories/python-instagram-login/startloginscript.py";
+        String location = "/home/innwadmin/python-instagram-login/startloginscript.py";
+//        String location = "/Users/stephen.hyde/repositories/python-instagram-login/startloginscript.py";
         String proxy = profile.getIp() + ":" + profile.getPort();
         if (!profile.getProxyUsername().equalsIgnoreCase("none")) {
             proxy = profile.getProxyUsername() + ":" + profile.getPassword() + "@" + proxy;
