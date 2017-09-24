@@ -57,7 +57,7 @@ public class LoginValidation {
             return;
         }
         System.out.println(scriptResult);
-        if (scriptResult != null && scriptResult.equalsIgnoreCase("False")) {
+        if (scriptResult == null || scriptResult.equalsIgnoreCase("False")) {
             result = false;
         } else {
             result = true;
